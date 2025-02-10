@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:zynk/common/widgets/my_button.dart';
 import 'package:zynk/constants/assets/asset_helper.dart';
 import 'package:zynk/constants/strings/app_string.dart';
-import 'package:zynk/constants/theme/theme/app_theme.dart';
-import 'package:zynk/view/onboarding/onboarding_page_two.dart';
+import 'package:zynk/view/auth/auth_decision_page.dart';
 
-class OnboardingPageOne extends StatelessWidget {
-  const OnboardingPageOne({super.key});
+class OnboardingPageTwo extends StatelessWidget {
+  const OnboardingPageTwo({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,27 +16,23 @@ class OnboardingPageOne extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 30.0),
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage(AssetHelper.onboardingImageOne),
+            image: AssetImage(AssetHelper.onboardingImageTwo),
             fit: BoxFit.cover,
           ),
         ),
         child: Column(
-          spacing: 50.0,
           mainAxisAlignment: MainAxisAlignment.end,
-          crossAxisAlignment: CrossAxisAlignment.start,
+          spacing: 50.0,
           children: [
-            Text(
-              AppString.onboardingScreenOneText,
-              style: AppTheme.appTheme.textTheme.headlineLarge,
-            ),
+            Text(AppString.onboardingScreenTwoText,style: Theme.of(context).textTheme.headlineMedium,),
             MyButton(
-              buttonText: "NEXT",
+              buttonText: "Get Started",
               buttonHeight: 70.0,
               buttonWidth: double.infinity,
               onTap: () => Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => OnboardingPageTwo(),
+                  builder: (context) => AuthDecisionPage(),
                 ),
               ),
             ),
