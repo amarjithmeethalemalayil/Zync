@@ -3,7 +3,7 @@ import 'package:zynk/constants/theme/theme/app_theme.dart';
 import 'package:zynk/view/onboarding/onboarding_page_one.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const  MyApp());
 }
 
 class MyApp extends StatelessWidget {
