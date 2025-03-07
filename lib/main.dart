@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Zynk',
       theme: AppTheme.appTheme,
-      home: const OnboardingPageOne(),
+      home: const OnboardingPageOne()
     );
   }
 }
