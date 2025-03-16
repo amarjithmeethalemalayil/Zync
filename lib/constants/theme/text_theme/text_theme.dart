@@ -19,5 +19,9 @@ class AppTextTheme {
       color: AppColors.whiteColor,
       fontWeight: FontWeight.w500,
     ),
+    bodyMedium: GoogleFonts.allertaStencil(
+      fontSize: 16.0,
+      color: AppColors.whiteColor,
+    )
   ); 
 }
