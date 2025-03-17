@@ -44,21 +44,31 @@ class _SliderViewPageState extends State<SliderViewPage> {
               icon: Icons.video_chat_rounded,
               label: "Your Collection",
               onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => UserCollectionPage())),
+                context,
+                MaterialPageRoute(
+                  builder: (context) => UserCollectionPage(),
+                ),
+              ),
             ),
             SilverViewOptions(
               icon: Icons.camera_enhance_rounded,
               label: "Create One",
-              onTap: () => Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => CreateOnePage())),
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => CreateOnePage(),
+                ),
+              ),
             ),
             SilverViewOptions(
               icon: Icons.pageview_outlined,
               label: "About me",
-              onTap: () => Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => AboutUsPage())),
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => AboutUsPage(),
+                ),
+              ),
             ),
             Spacer(),
             LogOutButton(),

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "351682714098",
+    "project_id": "zync-ff659",
+    "storage_bucket": "zync-ff659.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:351682714098:android:2ba41c2ed6daf2fab5b36b",
+        "android_client_info": {
+          "package_name": "com.example.zynk"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAmHl2c91kt-MAy0UGtyRcZucFUt_E58xU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

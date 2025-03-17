@@ -42,7 +42,7 @@ class AboutUsPage extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             const Text(
-              "Zynk Short Videos is a creative platform designed to empower users to express themselves through engaging short videos. Whether you're sharing moments, trends, or original content, this app provides the tools to make it happen effortlessly.\n\n"
+              "Zynk Short Videos is a creative platform designed to empower users to express themselves through engaging short videos. Whether you're sharing moments, trends, or original content, this app provides the tools to make it happen effortlessly.\n"
               "I built this app as a personal project to explore Flutter's capabilities while creating an intuitive and feature-rich video-sharing experience. It’s designed for smooth performance, AI-driven recommendations, and a seamless user interface.",
               textAlign: TextAlign.justify,
               style: TextStyle(fontSize: 16),

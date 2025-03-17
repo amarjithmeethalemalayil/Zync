@@ -1,5 +1,9 @@
 name: zynk
-description: "Zynk is an intuitive and engaging mobile application designed to help users share meaningful moments and spread joy through simple, yet powerful features. The app provides a seamless experience with a beautiful interface that encourages users to connect with their friends and loved ones, sharing photos, memories, and experiences in a fun and creative way."
+description: "Zynk is an intuitive and engaging mobile application designed to
+  help users share meaningful moments and spread joy through simple, yet
+  powerful features. The app provides a seamless experience with a beautiful
+  interface that encourages users to connect with their friends and loved ones,
+  sharing photos, memories, and experiences in a fun and creative way."
 publish_to: 'none'
 
 version: 1.0.0+1
@@ -9,12 +13,12 @@ environment:
 
 dependencies:
   cupertino_icons: ^1.0.8
+  firebase_core: ^3.12.1
   flutter:
     sdk: flutter
   google_fonts: ^6.2.1
 
 dev_dependencies:
-
   flutter_lints: ^5.0.0
   flutter_test:
     sdk: flutter
