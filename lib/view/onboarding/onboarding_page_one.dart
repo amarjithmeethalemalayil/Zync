@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:zynk/constants/assets/asset_helper.dart';
-import 'package:zynk/constants/strings/app_string.dart';
-import 'package:zynk/constants/theme/theme/app_theme.dart';
-import 'package:zynk/view/onboarding/onboarding_page_two.dart';
-import 'package:zynk/view/widgets/full_screen_image_box.dart';
-import 'package:zynk/view/widgets/my_button.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_navigation/get_navigation.dart';
+import 'package:zynk/core/constants/assets/asset_helper.dart';
+import 'package:zynk/core/constants/strings/app_string.dart';
+import 'package:zynk/core/routes/app_routes.dart';
+import 'package:zynk/core/theme/theme/app_theme.dart';
+import 'package:zynk/view/common/widgets/full_screen_image_box.dart';
+import 'package:zynk/view/common/widgets/my_button.dart';
 
 class OnboardingPageOne extends StatelessWidget {
   const OnboardingPageOne({super.key});
@@ -27,12 +29,7 @@ class OnboardingPageOne extends StatelessWidget {
             buttonText: "NEXT",
             buttonHeight: 70.0,
             buttonWidth: double.infinity,
-            onTap: () => Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => OnboardingPageTwo(),
-              ),
-            ),
+            onTap: () => Get.offNamed(AppRoutes.getStarted),
           ),
         ],
       ),

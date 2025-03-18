@@ -12,11 +12,19 @@ environment:
   sdk: ^3.6.0
 
 dependencies:
+  cloud_firestore: ^5.6.5
   cupertino_icons: ^1.0.8
+  firebase_auth: ^5.5.1
   firebase_core: ^3.12.1
+  firebase_storage: ^12.4.4
   flutter:
     sdk: flutter
+  fpdart: ^1.1.1
+  get: ^4.7.2
   google_fonts: ^6.2.1
+  google_sign_in: ^6.3.0
+  lottie: ^3.3.1
+  shared_preferences: ^2.5.2
 
 dev_dependencies:
   flutter_lints: ^5.0.0
@@ -29,6 +37,7 @@ flutter:
 
   assets:
     - assets/images/
+    - assets/animation/
   # example:
   # fonts:
   #   - family: Schyler

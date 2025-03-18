@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:zynk/constants/assets/asset_helper.dart';
-import 'package:zynk/constants/strings/app_string.dart';
-import 'package:zynk/view/auth/auth_decision_page.dart';
-import 'package:zynk/view/widgets/full_screen_image_box.dart';
-import 'package:zynk/view/widgets/my_button.dart';
+import 'package:get/get_state_manager/get_state_manager.dart';
+import 'package:zynk/controller/onboarding/onboarding_controller.dart';
+import 'package:zynk/core/constants/assets/asset_helper.dart';
+import 'package:zynk/core/constants/strings/app_string.dart';
+import 'package:zynk/view/common/widgets/full_screen_image_box.dart';
+import 'package:zynk/view/common/widgets/my_button.dart';
 
-class OnboardingPageTwo extends StatelessWidget {
+class OnboardingPageTwo extends GetView<OnboardingController> {
   const OnboardingPageTwo({super.key});
 
   @override
@@ -25,12 +26,7 @@ class OnboardingPageTwo extends StatelessWidget {
               buttonText: "Get Started",
               buttonHeight: 70.0,
               buttonWidth: double.infinity,
-              onTap: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => AuthDecisionPage(),
-                ),
-              ),
+              onTap: () => controller.completeOnboarding(),
             ),
           ],
         ),

@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:zynk/constants/theme/theme/app_theme.dart';
-import 'package:zynk/view/onboarding/onboarding_page_one.dart';
+import 'package:get/get_navigation/src/root/get_material_app.dart';
+import 'package:zynk/core/bindings/app_bindings.dart';
+import 'package:zynk/core/theme/theme/app_theme.dart';
+import 'package:zynk/core/routes/app_routes.dart';
 
-void main() {
-  runApp(const  MyApp());
+
+Future<void> main() async {
+  await AppBindings().dependencies();
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -11,11 +15,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Zynk',
       theme: AppTheme.appTheme,
-      home: const OnboardingPageOne()
+      initialRoute: AppRoutes.getInitialRoute(),
+      getPages: AppRoutes.routes,
     );
   }
 }
