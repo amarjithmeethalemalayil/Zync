@@ -1,16 +1,29 @@
 import 'package:get/get.dart';
+import 'package:zynk/core/constants/local_remote_helper/local_remote_helper.dart';
 import 'package:zynk/core/routes/app_routes.dart';
+import 'package:zynk/service/local/local_data_service.dart';
 import 'package:zynk/service/remote/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:zynk/view/common/widgets/loading.dart';
 
 class AuthController extends GetxController {
   final AuthService authService;
-  AuthController({required this.authService});
+  final LocalDataService localDataService;
+  AuthController({
+    required this.authService,
+    required this.localDataService,
+  });
 
   final nameController = TextEditingController();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+
+  Future<void> _setLoggedIn() async {
+    await localDataService.setBool(
+      key: LocalRemoteHelper.loggedIn,
+      value: true,
+    );
+  }
 
   Future<void> signInWithEmailAndPassword({
     required String email,
@@ -30,6 +43,7 @@ class AuthController extends GetxController {
     result.fold(
       (onFailure) => Get.snackbar("Login Error", onFailure.message),
       (onSuccess) {
+        _setLoggedIn();
         Get.offAllNamed(AppRoutes.home);
         emailController.clear();
       },
@@ -59,6 +73,7 @@ class AuthController extends GetxController {
     result.fold(
       (onFailure) => Get.snackbar("Register Error", onFailure.message),
       (onSuccess) {
+        _setLoggedIn();
         Get.offAllNamed(AppRoutes.home);
         emailController.clear();
       },
@@ -70,6 +85,7 @@ class AuthController extends GetxController {
     response.fold(
       (onFailure) => Get.snackbar("Register Error", onFailure.message),
       (onSuccess) {
+        _setLoggedIn();
         Get.offAllNamed(AppRoutes.home);
       },
     );

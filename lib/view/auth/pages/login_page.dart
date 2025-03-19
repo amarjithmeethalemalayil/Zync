@@ -81,7 +81,9 @@ class LoginPage extends GetView<AuthController> {
                         child: SpecialText(content: "Forgot Password?"),
                       ),
                       MyDivider(),
-                      GoogleButton(),
+                      GoogleButton(
+                        onTap: () => _googleLogin(),
+                      ),
                       BuildSelectionText(
                         onTap: () => _goToSignUp(),
                       )
@@ -94,6 +96,10 @@ class LoginPage extends GetView<AuthController> {
         ],
       ),
     );
+  }
+
+  void _googleLogin() {
+    controller.googleSignIn();
   }
 
   void _login() {

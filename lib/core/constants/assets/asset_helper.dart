@@ -4,4 +4,5 @@ class AssetHelper {
   static const loginSelectionPageBgImage = "assets/images/login_selection_bg.png";
   static const googleLogo = "assets/images/google_logo.png";
   static const loading = "assets/animation/loading.json";
+  static const createOneAnimation = "assets/animation/create_one_animation.json";
 }

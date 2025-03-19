@@ -73,5 +73,13 @@
     
     <key>UIApplicationSupportsIndirectInputEvents</key>
     <true/>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>We need access to your photo library to upload videos.</string>
+    <key>NSPhotoLibraryAddUsageDescription</key>
+    <string>We need access to save photos and videos.</string>
+    <key>NSCameraUsageDescription</key>
+    <string>App requires access to the camera for video recording.</string>
+    <key>NSMicrophoneUsageDescription</key>
+    <string>App requires access to the microphone for recording audio.</string> 
 </dict>
 </plist>

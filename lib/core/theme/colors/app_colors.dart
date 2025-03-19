@@ -6,4 +6,6 @@ class AppColors {
   static const specialColor = Color(0xFF393838);
   static const specialBoxColor = Color(0xFF2E2A2A);
   static const geryColor = Colors.blueGrey;
+  static const redColor = Colors.red;
+  static const blueColor = Colors.blue;
 }
