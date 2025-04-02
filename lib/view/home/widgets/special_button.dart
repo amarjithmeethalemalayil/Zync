@@ -13,7 +13,7 @@ class SpecialButton extends StatelessWidget {
       onTap: onTap,
       child: Container(
         height: 40.0,
-        width: 200.0,
+        width: 250.0,
         decoration: BoxDecoration(
           color: AppColors.secondaryColor,
           borderRadius: BorderRadius.circular(20.0),

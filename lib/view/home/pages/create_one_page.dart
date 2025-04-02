@@ -21,7 +21,7 @@ class CreateOnePage extends GetView<MediaController> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             SizedBox(
-              height: 200, 
+              height: 200,
               child: Lottie.asset(AssetHelper.createOneAnimation),
             ),
             const SizedBox(height: 20),
@@ -45,12 +45,13 @@ class CreateOnePage extends GetView<MediaController> {
             ),
             const SizedBox(height: 30),
             SpecialButton(
-              onTap: () => controller.pickVideo(ImageSource.gallery),
+              onTap: () => controller.pickVideo(ImageSource.camera),
               icon: Icon(Icons.camera, color: AppColors.whiteColor),
               text: "Shoot",
             ),
             const SizedBox(height: 15),
             SpecialButton(
+              onTap: () => controller.pickVideo(ImageSource.gallery),
               icon: Icon(Icons.image, color: AppColors.whiteColor),
               text: "Choose from Gallery",
             ),

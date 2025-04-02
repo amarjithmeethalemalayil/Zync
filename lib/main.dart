@@ -7,6 +7,7 @@ import 'package:zynk/core/routes/app_routes.dart';
 
 Future<void> main() async {
   await AppBindings().dependencies();
+  
   runApp(const MyApp());
 }
 
