@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
       title: 'Zynk',
       theme: AppTheme.appTheme,
       initialRoute: AppRoutes.getInitialRoute(),
-      getPages: AppRoutes.routes,
+      getPages: AppRoutes.routes
     );
   }
 }
