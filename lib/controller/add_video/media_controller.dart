@@ -94,8 +94,6 @@ class MediaController extends GetxController {
     try {
       _showLoadingDialog("Uploading Video...");
       String uid = auth.currentUser!.uid;
-
-      // Fetch user details
       final collection = db.collection(LocalRemoteHelper.collectionName);
       DocumentSnapshot userDoc = await collection.doc(uid).get();
       Map<String, dynamic>? userData = userDoc.data() as Map<String, dynamic>?;
@@ -110,7 +108,7 @@ class MediaController extends GetxController {
         return;
       }
       String? thumbnailUrl = await _uploadImageToStorage(videoId, videoPath);
-      if (thumbnailUrl == null) {
+      if (thumbnailUrl.isEmpty) {
         Get.back();
         _showErrorSnackbar("Thumbnail upload failed.");
         return;
@@ -129,7 +127,7 @@ class MediaController extends GetxController {
       );
       await db.collection('videos').doc(videoId).set(video.toJson());
       Get.snackbar("Success", "Video uploaded successfully!");
-      Get.offNamed(AppRoutes.createOne);
+      Get.offAllNamed(AppRoutes.home);
     } catch (e) {
       Get.back();
       _showErrorSnackbar("Error Uploading Video: ${e.toString()}");
@@ -187,12 +185,19 @@ class MediaController extends GetxController {
             children: [
               CircularProgressIndicator(),
               SizedBox(height: 10),
-              Text(message, style: TextStyle(color: Colors.white)),
+              Text(message, style: TextStyle(color: AppColors.whiteColor)),
             ],
           ),
         ),
       ),
       barrierDismissible: false,
     );
+  }
+
+  @override
+  void dispose() {
+    titleController.dispose();
+    captionController.dispose();
+    super.dispose();
   }
 }

@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/src/simple/get_view.dart';
 import 'package:zynk/controller/auth/auth_controller.dart';
 import 'package:zynk/core/theme/colors/app_colors.dart';
-import 'package:zynk/view/common/widgets/app_text_field.dart';
-import 'package:zynk/view/common/widgets/commone_app_bar.dart';
-import 'package:zynk/view/common/widgets/my_button.dart';
+import 'package:zynk/core/common/widgets/app_text_field.dart';
+import 'package:zynk/core/common/widgets/commone_app_bar.dart';
+import 'package:zynk/core/common/widgets/my_button.dart';
 
 class ForgotPasswordPage extends GetView<AuthController> {
   const ForgotPasswordPage({super.key});

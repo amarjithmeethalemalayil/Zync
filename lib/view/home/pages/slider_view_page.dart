@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:zynk/controller/user_info/user_info_controller.dart';
 import 'package:zynk/core/theme/colors/app_colors.dart';
-import 'package:zynk/view/home/pages/about_us_page.dart';
-import 'package:zynk/view/home/pages/create_one_page.dart';
-import 'package:zynk/view/home/pages/user_collection_page.dart';
-import 'package:zynk/view/home/widgets/build_profile_circle.dart';
+import 'package:zynk/view/about/pages/about_us_page.dart';
+import 'package:zynk/view/create_one/pages/create_one_page.dart';
+import 'package:zynk/view/search/pages/search_page.dart';
+import 'package:zynk/view/user_video_collection/pages/user_collection_page.dart';
+import 'package:zynk/core/common/widgets/build_profile_circle.dart';
 import 'package:zynk/view/home/widgets/log_out_button.dart';
 import 'package:zynk/view/home/widgets/silver_view_options.dart';
 
@@ -16,6 +19,7 @@ class SliderViewPage extends StatefulWidget {
 }
 
 class _SliderViewPageState extends State<SliderViewPage> {
+  final UserInfoController userInfoController = Get.put(UserInfoController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,10 +43,30 @@ class _SliderViewPageState extends State<SliderViewPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            BuildProfileCircle(name: "name"),
+            Obx(
+              () => Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 30.0,
+                  vertical: 60.0,
+                ),
+                child: BuildProfileCircle(
+                  name: userInfoController.username.value,
+                ),
+              ),
+            ),
+            SilverViewOptions(
+              icon: Icons.search,
+              label: "Search",
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => SearchPage(),
+                ),
+              ),
+            ),
             SilverViewOptions(
               icon: Icons.video_chat_rounded,
-              label: "Your Collection",
+              label: "Your Account",
               onTap: () => Navigator.push(
                 context,
                 MaterialPageRoute(

@@ -10,6 +10,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:zynk/controller/add_video/media_controller.dart';
 import 'package:zynk/controller/auth/auth_controller.dart';
+import 'package:zynk/controller/home_slider/slider_controller.dart';
 import 'package:zynk/controller/onboarding/onboarding_controller.dart';
 import 'package:zynk/firebase_options.dart';
 import 'package:zynk/service/local/local_data_service.dart';
@@ -49,6 +50,7 @@ class AppBindings extends Bindings {
           localDataService: Get.find(),
         ));
     Get.lazyPut(() => OnboardingController(localStorageService: Get.find()));
+    Get.put(SliderController());
     Get.lazyPut(() => MediaController(db: db, auth: auth, client: supabaseClient));
   }
 }

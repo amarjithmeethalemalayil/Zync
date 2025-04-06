@@ -4,7 +4,7 @@ import 'package:zynk/core/routes/app_routes.dart';
 import 'package:zynk/service/local/local_data_service.dart';
 import 'package:zynk/service/remote/auth_service.dart';
 import 'package:flutter/material.dart';
-import 'package:zynk/view/common/widgets/loading.dart';
+import 'package:zynk/core/common/widgets/loading.dart';
 
 class AuthController extends GetxController {
   final AuthService authService;

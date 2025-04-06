@@ -3,9 +3,9 @@ import 'package:get/get.dart';
 import 'package:video_player/video_player.dart';
 import 'package:zynk/controller/add_video/media_controller.dart';
 import 'package:zynk/core/theme/colors/app_colors.dart';
-import 'package:zynk/view/common/widgets/app_text_field.dart';
-import 'package:zynk/view/common/widgets/commone_app_bar.dart';
-import 'package:zynk/view/common/widgets/my_button.dart';
+import 'package:zynk/core/common/widgets/app_text_field.dart';
+import 'package:zynk/core/common/widgets/commone_app_bar.dart';
+import 'package:zynk/core/common/widgets/my_button.dart';
 
 class VideoPostPage extends GetView<MediaController> {
   const VideoPostPage({super.key});

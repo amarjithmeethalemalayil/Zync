@@ -5,9 +5,9 @@ import 'package:zynk/core/constants/assets/asset_helper.dart';
 import 'package:zynk/core/routes/app_routes.dart';
 import 'package:zynk/core/theme/colors/app_colors.dart';
 import 'package:zynk/view/auth/widgets/build_selection_text.dart';
-import 'package:zynk/view/common/widgets/app_text_field.dart';
-import 'package:zynk/view/common/widgets/full_screen_image_box.dart';
-import 'package:zynk/view/common/widgets/my_button.dart';
+import 'package:zynk/core/common/widgets/app_text_field.dart';
+import 'package:zynk/core/common/widgets/full_screen_image_box.dart';
+import 'package:zynk/core/common/widgets/my_button.dart';
 
 class SignUpPage extends GetView<AuthController> {
   const SignUpPage({super.key});

@@ -5,8 +5,8 @@ import 'package:lottie/lottie.dart';
 import 'package:zynk/controller/add_video/media_controller.dart';
 import 'package:zynk/core/constants/assets/asset_helper.dart';
 import 'package:zynk/core/theme/colors/app_colors.dart';
-import 'package:zynk/view/common/widgets/commone_app_bar.dart';
-import 'package:zynk/view/home/widgets/special_button.dart';
+import 'package:zynk/core/common/widgets/commone_app_bar.dart';
+import 'package:zynk/view/create_one/widgets/special_button.dart';
 
 class CreateOnePage extends GetView<MediaController> {
   const CreateOnePage({super.key});

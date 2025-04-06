@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:zynk/core/theme/colors/app_colors.dart';
-import 'package:zynk/view/common/widgets/commone_app_bar.dart';
+import 'package:zynk/core/common/widgets/commone_app_bar.dart';
 
 class AboutUsPage extends StatelessWidget {
   const AboutUsPage({super.key});
