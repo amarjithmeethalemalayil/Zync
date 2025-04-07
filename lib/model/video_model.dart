@@ -38,9 +38,8 @@ class Video {
         "thumbnail": thumbnail,
       };
 
-  static Video fromSnap(DocumentSnapshot snap) {
+  static Video fromFirestore(DocumentSnapshot snap) {
     var snapshot = snap.data() as Map<String, dynamic>;
-
     return Video(
       username: snapshot['username'],
       uid: snapshot['uid'],
