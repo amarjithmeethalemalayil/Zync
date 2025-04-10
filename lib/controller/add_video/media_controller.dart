@@ -185,7 +185,7 @@ class MediaController extends GetxController {
             children: [
               CircularProgressIndicator(),
               SizedBox(height: 10),
-              Text(message, style: TextStyle(color: AppColors.whiteColor)),
+              Text(message, style: TextStyle(color: AppColors.whiteColor))
             ],
           ),
         ),
