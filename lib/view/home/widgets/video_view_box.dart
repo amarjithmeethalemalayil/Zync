@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:video_player/video_player.dart';
-import 'package:zynk/controller/home_video/home_video_controller.dart';
-import 'package:zynk/core/theme/colors/app_colors.dart';
 
 class VideoViewBox extends StatefulWidget {
   final String videoUrl;
@@ -13,54 +10,41 @@ class VideoViewBox extends StatefulWidget {
 }
 
 class _VideoViewBoxState extends State<VideoViewBox> {
-  final homeVideoController = Get.put(HomeVideoController());
+  late VideoPlayerController videoPlayerController;
 
   @override
   void initState() {
     super.initState();
-    homeVideoController.initializeVideo(widget.videoUrl);
+    videoPlayerController =
+        VideoPlayerController.networkUrl(Uri.parse(widget.videoUrl))
+          ..initialize().then((_) {
+            setState(() {
+              videoPlayerController.play();
+              videoPlayerController.setVolume(1);
+            });
+          });
   }
 
   @override
   void dispose() {
-    homeVideoController.onClose();
-    homeVideoController.videoPlayerController.dispose();
     super.dispose();
+    videoPlayerController.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final videoController = homeVideoController.videoPlayerController;
     return Container(
       width: size.width,
       height: size.height,
-      decoration: BoxDecoration(
-        color: AppColors.specialBoxColor,
+      decoration: const BoxDecoration(
+        color: Colors.black,
       ),
-      child: Obx(
-        () {
-          return homeVideoController.isInitialized.value
-              ? Container(
-                  width: double.infinity,
-                  height: double.infinity,
-                  color: AppColors.specialBoxColor,
-                  child: FittedBox(
-                    fit: BoxFit.cover,
-                    child: SizedBox(
-                      width: videoController.value.size.width,
-                      height: videoController.value.size.height,
-                      child: VideoPlayer(
-                        homeVideoController.videoPlayerController,
-                      ),
-                    ),
-                  ),
-                )
-              : const Center(
-                  child: CircularProgressIndicator(),
-                );
-        },
-      ),
+      child:videoPlayerController.value.isInitialized ? AspectRatio(
+        aspectRatio: videoPlayerController.value.aspectRatio,
+        child: VideoPlayer(videoPlayerController),
+      ) :
+      Center(child: Text("loading"),)
     );
   }
 }

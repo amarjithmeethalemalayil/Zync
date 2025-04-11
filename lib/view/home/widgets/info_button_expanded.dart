@@ -2,25 +2,43 @@ import 'package:flutter/material.dart';
 import 'package:zynk/core/theme/colors/app_colors.dart';
 
 class InfoButtonExpanded extends StatelessWidget {
-  const InfoButtonExpanded({super.key});
+  final int like;
+  final int commentCount;
+  final int shreCount;
+  final Color likeIconColor;
+  final Function()? onPressedLike, onPressedComment, onPressedShare;
+  const InfoButtonExpanded({
+    super.key,
+    required this.like,
+    required this.commentCount,
+    required this.shreCount,
+    this.onPressedLike,
+    this.onPressedComment,
+    this.onPressedShare,
+    this.likeIconColor = AppColors.whiteColor,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: SingleChildScrollView(
         child: Column(
-          children:  [
+          children: [
             _homeExpandedIcon(
+              onPressed: onPressedLike,
               icon: Icons.favorite,
-              purpose: "999",
+              likeIconColor: likeIconColor,
+              purpose: like.toString(),
             ),
             _homeExpandedIcon(
+              onPressed: onPressedComment,
               icon: Icons.comment_outlined,
-              purpose: "999",
+              purpose: commentCount.toString(),
             ),
             _homeExpandedIcon(
+              onPressed: onPressedShare,
               icon: Icons.share_outlined,
-              purpose: "Share",
+              purpose: shreCount.toString(),
             ),
           ],
         ),
@@ -29,15 +47,20 @@ class InfoButtonExpanded extends StatelessWidget {
   }
 
   Widget _homeExpandedIcon({
-  required IconData icon,
-  required String purpose,
+    required IconData icon,
+    required String purpose,
+    Color likeIconColor = AppColors.whiteColor,
+    required Function()? onPressed,
   }) {
     return Padding(
       padding: const EdgeInsets.only(top: 10.0),
       child: Column(
         spacing: 10.0,
         children: [
-          Icon(icon, color: AppColors.whiteColor, size: 28),
+          InkWell(
+            onTap: onPressed,
+            child: Icon(icon, color: likeIconColor, size: 28),
+          ),
           Text(
             purpose,
             style: TextStyle(color: AppColors.whiteColor, fontSize: 12.0),

@@ -52,7 +52,7 @@ class AppBindings extends Bindings {
         ));
     Get.lazyPut(() => OnboardingController(localStorageService: Get.find()));
     Get.put(SliderController());
-    Get.put(HomeVideoController());
+    Get.put(HomeVideoController(db: db,auth: auth));
     Get.lazyPut(() => MediaController(db: db, auth: auth, client: supabaseClient));
   }
 }

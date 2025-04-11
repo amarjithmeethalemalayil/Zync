@@ -3,17 +3,18 @@ import 'package:get/get.dart';
 import 'package:zynk/controller/home_slider/slider_controller.dart';
 import 'package:zynk/controller/home_video/home_video_controller.dart';
 import 'package:zynk/core/theme/colors/app_colors.dart';
+import 'package:zynk/view/home/widgets/comment_box.dart';
+import 'package:zynk/view/home/widgets/comment_box_item.dart';
 import 'package:zynk/view/home/widgets/info_button_expanded.dart';
 import 'package:zynk/view/home/widgets/video_view_box.dart';
 
-class VideoViewPage extends GetView<SliderController> {
+class VideoViewPage extends GetView<HomeVideoController> {
   final Function()? onPressed;
 
   const VideoViewPage({super.key, this.onPressed});
 
   @override
   Widget build(BuildContext context) {
-    final homeVideoController = Get.put(HomeVideoController());
     return Material(
       elevation: 40,
       borderRadius: BorderRadius.circular(40.0),
@@ -29,19 +30,37 @@ class VideoViewPage extends GetView<SliderController> {
           body: Obx(
             () {
               return PageView.builder(
-                itemCount: homeVideoController.videoList.length,
+                itemCount: controller.videoList.length,
                 scrollDirection: Axis.vertical,
                 controller: PageController(
                   initialPage: 0,
                   viewportFraction: 1,
                 ),
                 itemBuilder: (context, index) {
-                  final video = homeVideoController.videoList[index];
+                  final video = controller.videoList[index];
                   return Stack(
                     children: [
                       VideoViewBox(videoUrl: video.videoUrl),
-                      _accountInfoSection(),
-                      _bottomCircleIcon(),
+                      _accountInfoSection(
+                        username: video.username,
+                        caption: video.caption,
+                      ),
+                      _bottomCircleIcon(
+                        likeCont: video.likes.length,
+                        commentCount: video.commentCount,
+                        shareCount: video.shareCount,
+                        likeColor: video.likes.contains(controller.uid)
+                            ? AppColors.secondaryColor
+                            : AppColors.whiteColor,
+                        onPressedComment: () => onPressCommentBox(
+                          commentCount: video.commentCount,
+                          username: "hi",
+                          comment: "how are you ",
+                        ),
+                        onPressedLike: () {
+                          controller.likeVideo(video.id);
+                        },
+                      ),
                     ],
                   );
                 },
@@ -53,12 +72,46 @@ class VideoViewPage extends GetView<SliderController> {
     );
   }
 
-  Widget _bottomCircleIcon() {
+  void onPressCommentBox({
+    required int commentCount,
+    required String username,
+    required String comment,
+  }) {
+    commentBox(
+      child: Expanded(
+        child: ListView.builder(
+          itemCount: 40,
+          itemBuilder: (context, index) {
+            return CommentBoxItem();
+          },
+        ),
+      ),
+    );
+  }
+
+  Widget _bottomCircleIcon({
+    required int likeCont,
+    required int commentCount,
+    required int shareCount,
+    required Color likeColor,
+    required Function() onPressedLike,
+    required Function() onPressedComment,
+  }) {
+    final sliderController = Get.find<SliderController>();
     return Align(
       alignment: Alignment.bottomRight,
       child: Obx(() {
-        final isExpanded = controller.isExpanded.value;
-        return _infoButton(isExpanded: isExpanded);
+        final isExpanded = sliderController.isExpanded.value;
+        return _infoButton(
+          isExpanded: isExpanded,
+          likeCont: likeCont,
+          commentCount: commentCount,
+          shareCount: shareCount,
+          onPressedLike: onPressedLike,
+          onTap: sliderController.toggleExpand,
+          likeColor: likeColor,
+          onPressedComment: onPressedComment,
+        );
       }),
     );
   }
@@ -80,12 +133,19 @@ class VideoViewPage extends GetView<SliderController> {
   }
 
   Widget _infoButton({
+    required Function()? onTap,
     required bool isExpanded,
+    required int likeCont,
+    required int commentCount,
+    required int shareCount,
+    required Color likeColor,
+    required Function() onPressedLike,
+    required Function() onPressedComment,
   }) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 20.0),
       child: GestureDetector(
-        onTap: controller.toggleExpand,
+        onTap: onTap,
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 300),
           width: 60,
@@ -109,7 +169,15 @@ class VideoViewPage extends GetView<SliderController> {
                   ),
                 ),
               ),
-              if (isExpanded) InfoButtonExpanded(),
+              if (isExpanded)
+                InfoButtonExpanded(
+                  like: likeCont,
+                  commentCount: commentCount,
+                  shreCount: shareCount,
+                  onPressedLike: onPressedLike,
+                  likeIconColor: likeColor,
+                  onPressedComment: onPressedComment,
+                ),
             ],
           ),
         ),
@@ -117,7 +185,10 @@ class VideoViewPage extends GetView<SliderController> {
     );
   }
 
-  Widget _accountInfoSection() {
+  Widget _accountInfoSection({
+    required String username,
+    required String caption,
+  }) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 20.0),
       child: Row(
@@ -136,9 +207,10 @@ class VideoViewPage extends GetView<SliderController> {
           ),
           Column(
             mainAxisAlignment: MainAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("Username"),
-              Text("SongName"),
+              Text(username),
+              Text(caption),
               SizedBox(
                 height: 8.0,
               )

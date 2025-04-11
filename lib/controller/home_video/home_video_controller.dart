@@ -1,14 +1,23 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:video_player/video_player.dart';
 import 'package:zynk/model/video_model.dart';
 
 class HomeVideoController extends GetxController {
+  final FirebaseFirestore db;
+  final FirebaseAuth auth;
+
+  HomeVideoController({
+    required this.auth,
+    required this.db,
+  });
   late VideoPlayerController videoPlayerController;
   RxBool isInitialized = false.obs;
   final Rx<List<Video>> _videoList = Rx<List<Video>>([]);
   List<Video> get videoList => _videoList.value;
-  final db = FirebaseFirestore.instance;
+
+  late String uid;
 
   @override
   void onInit() {
@@ -26,23 +35,25 @@ class HomeVideoController extends GetxController {
       ),
     );
     super.onInit();
+    uid = auth.currentUser!.uid;
   }
 
-  void initializeVideo(String url) {
-    videoPlayerController = VideoPlayerController.networkUrl(Uri.parse(url));
-    videoPlayerController.initialize().then((_) {
-      isInitialized.value = true;
-      videoPlayerController
-        ..play()
-        ..setVolume(1)
-        ..setLooping(true);
-    });
-    //isInitialized.value = false;
-  }
-
-  @override
-  void onClose() {
-    videoPlayerController.dispose();
-    super.onClose();
+  void likeVideo(String id) async {
+    DocumentSnapshot doc = await db.collection("videos").doc(id).get();
+    if (!doc.exists) {
+      Get.snackbar("Error", "Video not found");
+      return;
+    }
+    final data = doc.data() as Map<String, dynamic>?;
+    final likes = data?['likes'] as List<dynamic>? ?? [];
+    if (likes.contains(uid)) {
+      await db.collection("videos").doc(id).update({
+        "likes": FieldValue.arrayRemove([uid]),
+      });
+    } else {
+      await db.collection("videos").doc(id).update({
+        "likes": FieldValue.arrayUnion([uid]),
+      });
+    }
   }
 }
