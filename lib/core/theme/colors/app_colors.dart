@@ -8,4 +8,5 @@ class AppColors {
   static const geryColor = Colors.blueGrey;
   static const redColor = Colors.red;
   static const blueColor = Colors.blue;
+  static const transparentColor = Colors.transparent;
 }

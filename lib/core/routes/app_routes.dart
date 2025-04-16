@@ -6,6 +6,7 @@ import 'package:zynk/view/auth/pages/login_page.dart';
 import 'package:zynk/view/auth/pages/sign_up_page.dart';
 import 'package:zynk/view/about/pages/about_us_page.dart';
 import 'package:zynk/view/create_one/pages/create_one_page.dart';
+import 'package:zynk/view/other_account/pages/account_visible_page.dart';
 import 'package:zynk/view/search/pages/search_page.dart';
 import 'package:zynk/view/home/pages/slider_handle_page.dart';
 import 'package:zynk/view/user_video_collection/pages/user_collection_page.dart';
@@ -25,6 +26,7 @@ class AppRoutes {
   static const String about = '/about';
   static const String myCollection = '/my-collection';
   static const String searchPage = '/search-page';
+  static const accountVisiblePage = '/account-visible-page';
 
   static String getInitialRoute() => onboarding;
 
@@ -48,5 +50,6 @@ class AppRoutes {
     GetPage(name: about, page: () => AboutUsPage()),
     GetPage(name: myCollection, page: () => UserCollectionPage()),
     GetPage(name: searchPage, page: () => SearchPage()),
+    GetPage(name: accountVisiblePage, page: () => AccountVisiblePage())
   ];
 }

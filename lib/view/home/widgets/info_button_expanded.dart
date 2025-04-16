@@ -2,43 +2,55 @@ import 'package:flutter/material.dart';
 import 'package:zynk/core/theme/colors/app_colors.dart';
 
 class InfoButtonExpanded extends StatelessWidget {
-  final int like;
-  final int commentCount;
-  final int shreCount;
-  final Color likeIconColor;
-  final Function()? onPressedLike, onPressedComment, onPressedShare;
+  final Color? likeIconColor;
+  final int likeCount, commentCount;
+  final Function()? likeOnTap, commentOnTap, shareOnTap;
+
   const InfoButtonExpanded({
     super.key,
-    required this.like,
+    this.likeIconColor,
+    required this.likeCount,
     required this.commentCount,
-    required this.shreCount,
-    this.onPressedLike,
-    this.onPressedComment,
-    this.onPressedShare,
-    this.likeIconColor = AppColors.whiteColor,
+    this.likeOnTap,
+    this.commentOnTap,
+    this.shareOnTap,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: SingleChildScrollView(
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 15.0),
+      child: Center(
         child: Column(
+          spacing: 5.0,
           children: [
-            _homeExpandedIcon(
-              onPressed: onPressedLike,
-              icon: Icons.favorite,
-              likeIconColor: likeIconColor,
-              purpose: like.toString(),
+            _expandedIcon(iconData: Icons.keyboard_arrow_down),
+            _commoneSpace(),
+            _expandedIcon(
+                iconData: Icons.favorite,
+                iconColor: likeIconColor,
+                onTap: likeOnTap),
+            _countShowText(
+              context,
+              likeCount.toString(),
             ),
-            _homeExpandedIcon(
-              onPressed: onPressedComment,
-              icon: Icons.comment_outlined,
-              purpose: commentCount.toString(),
+            _commoneSpace(),
+            _expandedIcon(
+              iconData: Icons.comment_outlined,
+              onTap: commentOnTap,
             ),
-            _homeExpandedIcon(
-              onPressed: onPressedShare,
-              icon: Icons.share_outlined,
-              purpose: shreCount.toString(),
+            _countShowText(
+              context,
+              commentCount.toString(),
+            ),
+            _commoneSpace(),
+            _expandedIcon(
+              iconData: Icons.share_outlined,
+              onTap: shareOnTap,
+            ),
+            _countShowText(
+              context,
+              "Share"
             ),
           ],
         ),
@@ -46,27 +58,34 @@ class InfoButtonExpanded extends StatelessWidget {
     );
   }
 
-  Widget _homeExpandedIcon({
-    required IconData icon,
-    required String purpose,
-    Color likeIconColor = AppColors.whiteColor,
-    required Function()? onPressed,
-  }) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 10.0),
-      child: Column(
-        spacing: 10.0,
-        children: [
-          InkWell(
-            onTap: onPressed,
-            child: Icon(icon, color: likeIconColor, size: 28),
-          ),
-          Text(
-            purpose,
-            style: TextStyle(color: AppColors.whiteColor, fontSize: 12.0),
-          )
-        ],
+  Widget _countShowText(BuildContext ctx, String purpose) {
+    return Text(
+      purpose,
+      style: TextStyle(
+        color: AppColors.whiteColor,
+        fontSize: 12.0,
       ),
+    );
+  }
+
+  Widget _expandedIcon({
+    required IconData iconData,
+    Color? iconColor,
+    Function()? onTap,
+  }) {
+    return InkWell(
+      onTap: onTap,
+      child: Icon(
+        iconData,
+        size: 28.0,
+        color: iconColor ?? AppColors.whiteColor,
+      ),
+    );
+  }
+
+  Widget _commoneSpace() {
+    return SizedBox(
+      height: 8.0,
     );
   }
 }

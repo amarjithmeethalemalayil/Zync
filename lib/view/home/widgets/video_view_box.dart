@@ -1,50 +1,50 @@
 import 'package:flutter/material.dart';
-import 'package:video_player/video_player.dart';
+import 'package:zynk/model/video_model.dart';
+import 'package:zynk/view/home/widgets/video_account_info_section.dart';
+import 'package:zynk/view/home/widgets/video_action_circle.dart';
+import 'package:zynk/view/home/widgets/video_stream_box.dart';
 
-class VideoViewBox extends StatefulWidget {
-  final String videoUrl;
-  const VideoViewBox({super.key, required this.videoUrl});
+class VideoViewBox extends StatelessWidget {
+  final Video video;
+  final bool isExpanded;
+  final Color? likeColor;
+  final Function()? onPressVideoActionCircle,
+      likePressed,
+      commentPressed,
+      sharePressed, gotoAccount;
 
-  @override
-  State<VideoViewBox> createState() => _VideoViewBoxState();
-}
-
-class _VideoViewBoxState extends State<VideoViewBox> {
-  late VideoPlayerController videoPlayerController;
-
-  @override
-  void initState() {
-    super.initState();
-    videoPlayerController =
-        VideoPlayerController.networkUrl(Uri.parse(widget.videoUrl))
-          ..initialize().then((_) {
-            setState(() {
-              videoPlayerController.play();
-              videoPlayerController.setVolume(1);
-            });
-          });
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    videoPlayerController.dispose();
-  }
+  const VideoViewBox({
+    super.key,
+    required this.video,
+    required this.isExpanded,
+    this.likeColor,
+    this.likePressed,
+    this.commentPressed,
+    this.sharePressed,
+    this.onPressVideoActionCircle, this.gotoAccount,
+  });
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    return Container(
-      width: size.width,
-      height: size.height,
-      decoration: const BoxDecoration(
-        color: Colors.black,
-      ),
-      child:videoPlayerController.value.isInitialized ? AspectRatio(
-        aspectRatio: videoPlayerController.value.aspectRatio,
-        child: VideoPlayer(videoPlayerController),
-      ) :
-      Center(child: Text("loading"),)
+    return Stack(
+      children: [
+        VideoStreamBox(videoUrl: video.videoUrl),
+        VideoAccountinfoSection(
+          username: video.username,
+          caption: video.caption,
+          gotoAccount: gotoAccount,
+        ),
+        VideoActionCircle(
+          onPressVideoActionCircle: onPressVideoActionCircle,
+          isExpanded: isExpanded,
+          likeCount: video.likes.length,
+          likeColor: likeColor,
+          likePressed: likePressed,
+          commentCount: video.commentCount,
+          commentPressed: commentPressed,
+          sharePressed: sharePressed,
+        ),
+      ],
     );
   }
 }

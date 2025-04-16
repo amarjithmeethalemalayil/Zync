@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:zynk/core/theme/colors/app_colors.dart';
 import 'package:zynk/core/common/widgets/commone_app_bar.dart';
 import 'package:zynk/core/common/widgets/build_follow_section.dart';
@@ -9,6 +10,8 @@ class AccountVisiblePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final args = Get.arguments;
+    final value = args['uid'];
     return Scaffold(
       appBar: CommonAppBar(),
       body: Center(

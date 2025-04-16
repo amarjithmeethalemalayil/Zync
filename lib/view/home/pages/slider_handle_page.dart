@@ -27,8 +27,13 @@ class SliderHandlePage extends GetView<SliderController> {
               bottom: isCollapsed ? 0 : 0.2 * width,
               left: isCollapsed ? 0 : 0.6 * width,
               right: isCollapsed ? 0 : -0.4 * width,
-              child: VideoViewPage(
-                onPressed: () => controller.toggleCollapse(),
+              child: ClipRRect(
+                borderRadius: controller.isCollapsed.value
+                    ? BorderRadius.circular(0)
+                    : BorderRadius.circular(30.0),
+                child: VideoViewPage(
+                  onPressed: () => controller.toggleCollapse(),
+                ),
               ),
             );
           }),

@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
-import 'package:video_player/video_player.dart';
+import 'package:zynk/model/comment.dart';
 import 'package:zynk/model/video_model.dart';
 
 class HomeVideoController extends GetxController {
@@ -12,12 +12,13 @@ class HomeVideoController extends GetxController {
     required this.auth,
     required this.db,
   });
-  late VideoPlayerController videoPlayerController;
-  RxBool isInitialized = false.obs;
   final Rx<List<Video>> _videoList = Rx<List<Video>>([]);
   List<Video> get videoList => _videoList.value;
+  final Rx<List<Comment>> _comments = Rx<List<Comment>>([]);
+  List<Comment> get comments => _comments.value;
 
   late String uid;
+  var isExpanded = false.obs;
 
   @override
   void onInit() {
@@ -38,7 +39,11 @@ class HomeVideoController extends GetxController {
     uid = auth.currentUser!.uid;
   }
 
-  void likeVideo(String id) async {
+  void toggleExpand() {
+    isExpanded.value = !isExpanded.value;
+  }
+
+  Future<void> likeVideo(String id) async {
     DocumentSnapshot doc = await db.collection("videos").doc(id).get();
     if (!doc.exists) {
       Get.snackbar("Error", "Video not found");
@@ -54,6 +59,61 @@ class HomeVideoController extends GetxController {
       await db.collection("videos").doc(id).update({
         "likes": FieldValue.arrayUnion([uid]),
       });
+    }
+  }
+
+  Future<void> commentOnVideo(
+    String videoId,
+    String uid,
+    String comment,
+  ) async {
+    try {
+      final querySnapshot = await FirebaseFirestore.instance
+          .collection('accounts')
+          .where('uid', isEqualTo: uid)
+          .limit(1)
+          .get();
+      if (querySnapshot.docs.isEmpty) {
+        print("No user found with that UID");
+        return;
+      }
+      final username = querySnapshot.docs.first['name'];
+      final userComment = Comment(
+        username: username,
+        comment: comment,
+        datePublished: DateTime.now(),
+        uid: uid,
+      );
+      await FirebaseFirestore.instance
+          .collection("videos")
+          .doc(videoId)
+          .collection("comment")
+          .doc()
+          .set(userComment.toJson());
+      await FirebaseFirestore.instance
+          .collection("videos")
+          .doc(videoId)
+          .update({
+        'commentCount': FieldValue.increment(1),
+      });
+    } catch (e) {
+      throw Exception("Failed to post comment: $e");
+    }
+  }
+
+  Future<void> getComments(String videoId) async {
+    try {
+      final querySnapshot = await FirebaseFirestore.instance
+          .collection("videos")
+          .doc(videoId)
+          .collection("comment")
+          .orderBy("datePublished", descending: false)
+          .get();
+      _comments.value =
+          querySnapshot.docs.map((doc) => Comment.fromMap(doc.data())).toList();
+    } catch (e) {
+      print("Error fetching comments: $e");
+      rethrow;
     }
   }
 }
