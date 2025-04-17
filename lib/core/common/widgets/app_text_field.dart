@@ -5,12 +5,14 @@ class AppTextField extends StatelessWidget {
   final String hintText;
   final Icon prefixIcon;
   final TextEditingController controller;
+  final Function(String)? onFieldSubmitted;
 
   const AppTextField({
     super.key,
     required this.hintText,
     required this.prefixIcon,
     required this.controller,
+    this.onFieldSubmitted,
   });
 
   @override
@@ -19,9 +21,8 @@ class AppTextField extends StatelessWidget {
       height: 46.0,
       child: TextFormField(
         controller: controller,
-        style: TextStyle(
-          color: AppColors.whiteColor
-        ),
+        style: TextStyle(color: AppColors.whiteColor),
+        onFieldSubmitted: onFieldSubmitted,
         decoration: InputDecoration(
           hintText: hintText,
           border: OutlineInputBorder(

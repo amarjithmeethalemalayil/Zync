@@ -3,20 +3,16 @@ import 'package:zynk/core/constants/local_remote_helper/local_remote_helper.dart
 import 'package:zynk/core/routes/app_routes.dart';
 import 'package:zynk/service/local/local_data_service.dart';
 import 'package:zynk/service/remote/auth_service.dart';
-import 'package:flutter/material.dart';
 import 'package:zynk/core/common/widgets/loading.dart';
 
 class AuthController extends GetxController {
   final AuthService authService;
   final LocalDataService localDataService;
+  
   AuthController({
     required this.authService,
     required this.localDataService,
   });
-
-  final nameController = TextEditingController();
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
 
   Future<void> _setLoggedIn() async {
     await localDataService.setBool(
@@ -45,7 +41,6 @@ class AuthController extends GetxController {
       (onSuccess) {
         _setLoggedIn();
         Get.offAllNamed(AppRoutes.home);
-        emailController.clear();
       },
     );
   }
@@ -75,7 +70,6 @@ class AuthController extends GetxController {
       (onSuccess) {
         _setLoggedIn();
         Get.offAllNamed(AppRoutes.home);
-        emailController.clear();
       },
     );
   }
@@ -111,8 +105,7 @@ class AuthController extends GetxController {
       barrierDismissible: false,
     );
 
-    final result =
-        await authService.forgotPassword(email: emailController.text.trim());
+    final result = await authService.forgotPassword(email: email);
 
     Get.back();
 
@@ -120,16 +113,7 @@ class AuthController extends GetxController {
       (onFailure) => Get.snackbar("Reset Error", onFailure.message),
       (onSuccess) {
         Get.snackbar("Success", "Password reset email sent. Check your inbox!");
-        emailController.clear();
       },
     );
-  }
-
-  @override
-  void dispose() {
-    emailController.dispose();
-    passwordController.dispose();
-    nameController.dispose();
-    super.dispose();
   }
 }

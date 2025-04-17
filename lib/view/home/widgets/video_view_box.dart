@@ -11,7 +11,10 @@ class VideoViewBox extends StatelessWidget {
   final Function()? onPressVideoActionCircle,
       likePressed,
       commentPressed,
-      sharePressed, gotoAccount;
+      sharePressed,
+      gotoAccount,
+      doubleTapLike,
+      playPauseVideo;
 
   const VideoViewBox({
     super.key,
@@ -21,30 +24,37 @@ class VideoViewBox extends StatelessWidget {
     this.likePressed,
     this.commentPressed,
     this.sharePressed,
-    this.onPressVideoActionCircle, this.gotoAccount,
+    this.onPressVideoActionCircle,
+    this.gotoAccount,
+    this.doubleTapLike,
+    this.playPauseVideo,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        VideoStreamBox(videoUrl: video.videoUrl),
-        VideoAccountinfoSection(
-          username: video.username,
-          caption: video.caption,
-          gotoAccount: gotoAccount,
-        ),
-        VideoActionCircle(
-          onPressVideoActionCircle: onPressVideoActionCircle,
-          isExpanded: isExpanded,
-          likeCount: video.likes.length,
-          likeColor: likeColor,
-          likePressed: likePressed,
-          commentCount: video.commentCount,
-          commentPressed: commentPressed,
-          sharePressed: sharePressed,
-        ),
-      ],
+    return GestureDetector(
+      onDoubleTap: doubleTapLike,
+      onTap: playPauseVideo,
+      child: Stack(
+        children: [
+          VideoStreamBox(videoUrl: video.videoUrl),
+          VideoAccountinfoSection(
+            username: video.username,
+            caption: video.caption,
+            gotoAccount: gotoAccount,
+          ),
+          VideoActionCircle(
+            onPressVideoActionCircle: onPressVideoActionCircle,
+            isExpanded: isExpanded,
+            likeCount: video.likes.length,
+            likeColor: likeColor,
+            likePressed: likePressed,
+            commentCount: video.commentCount,
+            commentPressed: commentPressed,
+            sharePressed: sharePressed,
+          ),
+        ],
+      ),
     );
   }
 }

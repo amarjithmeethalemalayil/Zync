@@ -1,11 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:zynk/controller/home_slider/slider_controller.dart';
+
 import 'package:zynk/view/home/pages/slider_view_page.dart';
 import 'package:zynk/view/home/pages/video_view_page.dart';
 
-class SliderHandlePage extends GetView<SliderController> {
+class SliderHandlePage extends StatefulWidget {
   const SliderHandlePage({super.key});
+
+  @override
+  State<SliderHandlePage> createState() => _SliderHandlePageState();
+}
+
+class _SliderHandlePageState extends State<SliderHandlePage> {
+  final sliderController = Get.find<SliderController>();
 
   @override
   Widget build(BuildContext context) {
@@ -16,10 +24,10 @@ class SliderHandlePage extends GetView<SliderController> {
       body: Stack(
         children: [
           SliderViewPage(
-            onPressed: () => controller.toggleCollapse(),
+            onPressed: () => sliderController.toggleCollapse(),
           ),
           Obx(() {
-            final isCollapsed = controller.isCollapsed.value;
+            final isCollapsed = sliderController.isCollapsed.value;
             return AnimatedPositioned(
               duration: const Duration(milliseconds: 300),
               curve: Curves.easeInOut,
@@ -28,11 +36,11 @@ class SliderHandlePage extends GetView<SliderController> {
               left: isCollapsed ? 0 : 0.6 * width,
               right: isCollapsed ? 0 : -0.4 * width,
               child: ClipRRect(
-                borderRadius: controller.isCollapsed.value
+                borderRadius: sliderController.isCollapsed.value
                     ? BorderRadius.circular(0)
                     : BorderRadius.circular(30.0),
                 child: VideoViewPage(
-                  onPressed: () => controller.toggleCollapse(),
+                  onPressed: () => sliderController.toggleCollapse(),
                 ),
               ),
             );

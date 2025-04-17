@@ -9,9 +9,26 @@ import 'package:zynk/core/common/widgets/app_text_field.dart';
 import 'package:zynk/core/common/widgets/full_screen_image_box.dart';
 import 'package:zynk/core/common/widgets/my_button.dart';
 
-class SignUpPage extends GetView<AuthController> {
+class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
 
+  @override
+  State<SignUpPage> createState() => _SignUpPageState();
+}
+
+class _SignUpPageState extends State<SignUpPage> {
+  final controller = Get.find<AuthController>();
+  final _nameController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+
+@override
+  void dispose() {
+    _nameController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,7 +68,7 @@ class SignUpPage extends GetView<AuthController> {
                         height: 10.0,
                       ),
                       AppTextField(
-                        controller: controller.nameController,
+                        controller: _nameController,
                         hintText: "Enter your Name",
                         prefixIcon: Icon(
                           Icons.account_circle_outlined,
@@ -59,7 +76,7 @@ class SignUpPage extends GetView<AuthController> {
                         ),
                       ),
                       AppTextField(
-                        controller: controller.emailController,
+                        controller: _emailController,
                         hintText: "Enter your Email",
                         prefixIcon: Icon(
                           Icons.alternate_email_outlined,
@@ -67,7 +84,7 @@ class SignUpPage extends GetView<AuthController> {
                         ),
                       ),
                       AppTextField(
-                        controller: controller.passwordController,
+                        controller: _passwordController,
                         hintText: "Enter your Password",
                         prefixIcon: Icon(
                           Icons.lock_outline_rounded,
@@ -83,7 +100,7 @@ class SignUpPage extends GetView<AuthController> {
                       ),
                       BuildSelectionText(
                         isSignUp: true,
-                        onTap: () => _goTologin(),
+                        onTap: () => Get.toNamed(AppRoutes.login),
                       ),
                     ],
                   ),
@@ -98,14 +115,9 @@ class SignUpPage extends GetView<AuthController> {
 
   void _signUp() {
     controller.signUpWithEmailAndPassword(
-      name: controller.nameController.text.trim(),
-      email: controller.emailController.text.trim(),
-      password: controller.passwordController.text.trim(),
+      name: _nameController.text.trim(),
+      email: _emailController.text.trim(),
+      password: _passwordController.text.trim(),
     );
-  }
-
-  void _goTologin() {
-    controller.emailController.clear();
-    Get.toNamed(AppRoutes.login);
   }
 }

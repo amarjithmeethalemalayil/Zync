@@ -68,7 +68,7 @@ class HomeVideoController extends GetxController {
     String comment,
   ) async {
     try {
-      final querySnapshot = await FirebaseFirestore.instance
+      final querySnapshot = await db
           .collection('accounts')
           .where('uid', isEqualTo: uid)
           .limit(1)
@@ -84,16 +84,13 @@ class HomeVideoController extends GetxController {
         datePublished: DateTime.now(),
         uid: uid,
       );
-      await FirebaseFirestore.instance
+      await db
           .collection("videos")
           .doc(videoId)
           .collection("comment")
           .doc()
           .set(userComment.toJson());
-      await FirebaseFirestore.instance
-          .collection("videos")
-          .doc(videoId)
-          .update({
+      await db.collection("videos").doc(videoId).update({
         'commentCount': FieldValue.increment(1),
       });
     } catch (e) {
@@ -103,7 +100,7 @@ class HomeVideoController extends GetxController {
 
   Future<void> getComments(String videoId) async {
     try {
-      final querySnapshot = await FirebaseFirestore.instance
+      final querySnapshot = await db
           .collection("videos")
           .doc(videoId)
           .collection("comment")
@@ -112,8 +109,13 @@ class HomeVideoController extends GetxController {
       _comments.value =
           querySnapshot.docs.map((doc) => Comment.fromMap(doc.data())).toList();
     } catch (e) {
-      print("Error fetching comments: $e");
+      Get.snackbar("Error", "Error fetching comments: ${e.toString()}");
       rethrow;
     }
+  }
+
+  Future<void> doubleTapLike(String videoId) async {
+    await likeVideo(videoId);
+    Get.snackbar("Info", "Video Liked");
   }
 }

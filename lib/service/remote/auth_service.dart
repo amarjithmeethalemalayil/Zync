@@ -27,7 +27,6 @@ class AuthService {
         email: email,
         password: password,
       );
-
       final user = userCredential.user;
       if (user == null) {
         return Left(Failures(message: "User registration failed"));
@@ -38,13 +37,14 @@ class AuthService {
         name: name,
         email: email,
         uid: uid,
+        followers: [],
+        following: [],
+        uploadedVideos: [],
       );
-
       await db
           .collection(LocalRemoteHelper.collectionName)
           .doc(uid)
           .set(newUser.toJson());
-
       return Right(newUser);
     } on FirebaseAuthException catch (e) {
       return Left(
@@ -54,7 +54,6 @@ class AuthService {
       return Left(Failures(message: "Unexpected error: ${e.toString()}"));
     }
   }
-
   Future<Either<Failures, UserModel>> signIn({
     required String email,
     required String password,
@@ -116,7 +115,13 @@ class AuthService {
         userModel = UserModel.fromJson(userDoc.data()!);
       } else {
         userModel = UserModel(
-            name: user.displayName ?? "User", email: user.email!, uid: uid);
+          name: user.displayName ?? "User",
+          email: user.email!,
+          uid: uid,
+          followers: [],
+          following: [],
+          uploadedVideos: [],
+        );
         await db.collection(LocalRemoteHelper.collectionName).doc(uid).set(
               userModel.toJson(),
             );

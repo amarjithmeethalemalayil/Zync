@@ -12,8 +12,24 @@ import 'package:zynk/core/common/widgets/full_screen_image_box.dart';
 import 'package:zynk/core/common/widgets/my_button.dart';
 import 'package:zynk/view/auth/widgets/my_divider.dart';
 
-class LoginPage extends GetView<AuthController> {
+class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
+
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  final controller = Get.find<AuthController>();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +70,7 @@ class LoginPage extends GetView<AuthController> {
                         height: 10.0,
                       ),
                       AppTextField(
-                        controller: controller.emailController,
+                        controller: _emailController,
                         hintText: "Enter your Email",
                         prefixIcon: Icon(
                           Icons.alternate_email_outlined,
@@ -62,7 +78,7 @@ class LoginPage extends GetView<AuthController> {
                         ),
                       ),
                       AppTextField(
-                        controller: controller.passwordController,
+                        controller: _passwordController,
                         hintText: "Enter your Password",
                         prefixIcon: Icon(
                           Icons.lock_outline_rounded,
@@ -77,7 +93,7 @@ class LoginPage extends GetView<AuthController> {
                         onTap: () => _login(),
                       ),
                       InkWell(
-                        onTap: () => _forgotPassword(),
+                        onTap: () => Get.toNamed(AppRoutes.forgotPassword),
                         child: SpecialText(content: "Forgot Password?"),
                       ),
                       MyDivider(),
@@ -85,7 +101,7 @@ class LoginPage extends GetView<AuthController> {
                         onTap: () => _googleLogin(),
                       ),
                       BuildSelectionText(
-                        onTap: () => _goToSignUp(),
+                        onTap: () => Get.toNamed(AppRoutes.signUp),
                       )
                     ],
                   ),
@@ -104,18 +120,8 @@ class LoginPage extends GetView<AuthController> {
 
   void _login() {
     controller.signInWithEmailAndPassword(
-      email: controller.emailController.text.trim(),
-      password: controller.passwordController.text.trim(),
+      email: _emailController.text.trim(),
+      password: _passwordController.text.trim(),
     );
-  }
-
-  void _forgotPassword() {
-    controller.emailController.clear();
-    Get.toNamed(AppRoutes.forgotPassword);
-  }
-
-  void _goToSignUp() {
-    controller.emailController.clear();
-    Get.toNamed(AppRoutes.signUp);
   }
 }

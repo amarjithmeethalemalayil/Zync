@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:zynk/core/theme/colors/app_colors.dart';
 
 class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -9,6 +10,7 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       backgroundColor: Colors.black,
       leading: BackButton(
+        onPressed: () => Get.back(),
         color: AppColors.whiteColor,
       ),
     );

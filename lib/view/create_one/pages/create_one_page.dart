@@ -4,6 +4,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:lottie/lottie.dart';
 import 'package:zynk/controller/add_video/media_controller.dart';
 import 'package:zynk/core/constants/assets/asset_helper.dart';
+import 'package:zynk/core/routes/app_routes.dart';
 import 'package:zynk/core/theme/colors/app_colors.dart';
 import 'package:zynk/core/common/widgets/commone_app_bar.dart';
 import 'package:zynk/view/create_one/widgets/special_button.dart';
@@ -45,13 +46,13 @@ class CreateOnePage extends GetView<MediaController> {
             ),
             const SizedBox(height: 30),
             SpecialButton(
-              onTap: () => controller.pickVideo(ImageSource.camera),
+              onTap: () => pickVideo(ImageSource.camera),
               icon: Icon(Icons.camera, color: AppColors.whiteColor),
               text: "Shoot",
             ),
             const SizedBox(height: 15),
             SpecialButton(
-              onTap: () => controller.pickVideo(ImageSource.gallery),
+              onTap: () => pickVideo(ImageSource.gallery),
               icon: Icon(Icons.image, color: AppColors.whiteColor),
               text: "Choose from Gallery",
             ),
@@ -59,5 +60,17 @@ class CreateOnePage extends GetView<MediaController> {
         ),
       ),
     );
+  }
+
+  void pickVideo(ImageSource source) async {
+    final video = await controller.pickVideo(source);
+    if (video != null) {
+      Get.toNamed(
+        AppRoutes.videopost,
+        arguments: {'video': video.path},
+      );
+    } else {
+      Get.snackbar("Alert", "Please pick a video to continue");
+    }
   }
 }

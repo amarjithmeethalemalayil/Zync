@@ -38,6 +38,7 @@ class VideoboxController extends GetxController {
 
   @override
   void onClose() {
+    videoPlayerController.pause();
     videoPlayerController.dispose();
     super.onClose();
   }

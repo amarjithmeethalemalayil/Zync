@@ -1,78 +1,84 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:video_player/video_player.dart';
 import 'package:zynk/controller/add_video/media_controller.dart';
-import 'package:zynk/core/theme/colors/app_colors.dart';
 import 'package:zynk/core/common/widgets/app_text_field.dart';
 import 'package:zynk/core/common/widgets/commone_app_bar.dart';
 import 'package:zynk/core/common/widgets/my_button.dart';
+import 'package:zynk/view/create_one/widgets/video_preview_box.dart';
 
-class VideoPostPage extends GetView<MediaController> {
+class VideoPostPage extends StatefulWidget {
   const VideoPostPage({super.key});
 
   @override
+  State<VideoPostPage> createState() => _VideoPostPageState();
+}
+
+class _VideoPostPageState extends State<VideoPostPage> {
+  final MediaController controller = Get.find<MediaController>();
+  final _captionController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    final String videoPath = Get.arguments['video'];
+    if (videoPath.isNotEmpty) {
+      controller.videoPath.value = videoPath;
+      controller.videoFile.value = File(videoPath);
+      controller.initializeVideo();
+    } else {
+      Get.snackbar(
+        "Isssue",
+        "There is an issue while picking video. Please pick again",
+      );
+      Get.back();
+    }
+  }
+
+  @override
+  void dispose() {
+    controller.clearVideo();
+    _captionController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        controller.clearVideo();
-        return true;
-      },
-      child: Scaffold(
-        appBar: CommonAppBar(),
-        body: Stack(
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    const SizedBox(height: 10.0),
-                    Obx(() {
-                      final videoController = controller.videoController.value;
-                      if (videoController == null) {
-                        return const Center(child: Text("Video failed to load"));
-                      }
-                      return ClipRRect(
-                        borderRadius: BorderRadius.circular(20.0),
-                        child: Container(
-                          width: double.infinity,
-                          height: MediaQuery.of(context).size.height * 0.6,
-                          color: AppColors.specialBoxColor,
-                          child: FittedBox(
-                            fit: BoxFit.cover,
-                            child: SizedBox(
-                              width: videoController.value.size.width,
-                              height: videoController.value.size.height,
-                              child: VideoPlayer(videoController),
-                            ),
-                          ),
-                        ),
-                      );
-                    }),
-                    const SizedBox(height: 20),
-                    AppTextField(
-                      hintText: "Track Name",
-                      prefixIcon: const Icon(Icons.person_pin_circle),
-                      controller: controller.titleController,
-                    ),
-                    const SizedBox(height: 10),
-                    AppTextField(
-                      hintText: "Caption",
-                      prefixIcon: const Icon(Icons.note),
-                      controller: controller.captionController, 
-                    ),
-                    const SizedBox(height: 20),
-                    MyButton(
-                      buttonText: "Post",
-                      buttonHeight: 42.0,
-                      buttonWidth: double.infinity,
-                      onTap: _uploadVideo,
-                    ),
-                  ],
-                ),
+    return Scaffold(
+      appBar: CommonAppBar(),
+      body: SingleChildScrollView(
+        child: Center(
+          child: Obx(() {
+            if (controller.videoController.value == null) {
+              return const Text("Video not loaded");
+            }
+            return Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 20.0,
+                vertical: 20.0,
               ),
-            ),
-          ],
+              child: Column(
+                spacing: 20.0,
+                children: [
+                  VideoPreviewBox(
+                    videoPlayerController: controller.videoController.value!,
+                  ),
+                  AppTextField(
+                    hintText: "Caption",
+                    prefixIcon: const Icon(Icons.note),
+                    controller: _captionController,
+                  ),
+                  SizedBox(height: 10.0),
+                  MyButton(
+                    buttonText: "Post",
+                    buttonHeight: 42.0,
+                    buttonWidth: double.infinity,
+                    onTap: _uploadVideo,
+                  ),
+                ],
+              ),
+            );
+          }),
         ),
       ),
     );
@@ -84,10 +90,8 @@ class VideoPostPage extends GetView<MediaController> {
       return;
     }
     controller.uploadVideo(
-      controller.titleController.text.trim(),
-      controller.captionController.text.trim(),
+      _captionController.text.trim(),
       controller.videoPath.value,
     );
-    print("posted");
   }
 }

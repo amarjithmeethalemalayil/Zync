@@ -6,4 +6,7 @@ class SliderController extends GetxController {
   void toggleCollapse() {
     isCollapsed.value = !isCollapsed.value;
   }
+  void reset(){
+    isCollapsed.value = true;
+  }
 }

@@ -55,6 +55,6 @@ class CommentBoxItem extends StatelessWidget {
 
 String formatTimestamp(DateTime timestamp) {
   final formatter =
-      DateFormat('MMM d, y • h:mm a'); // Example: Apr 17, 2025 • 1:11 AM
+      DateFormat('MMM d, y • h:mm a'); 
   return formatter.format(timestamp);
 }

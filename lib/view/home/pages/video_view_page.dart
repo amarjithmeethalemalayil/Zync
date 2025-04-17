@@ -31,13 +31,10 @@ class _VideoViewPageState extends State<VideoViewPage> {
     final currentVideo = controller.videoList[index];
     final previousTag = previousVideo.videoUrl;
     final currentTag = currentVideo.videoUrl;
-
     if (Get.isRegistered<VideoboxController>(tag: previousTag)) {
       Get.find<VideoboxController>(tag: previousTag).pauseVideo();
     }
-
     currentIndex = index;
-
     if (Get.isRegistered<VideoboxController>(tag: currentTag)) {
       final currentController = Get.find<VideoboxController>(tag: currentTag);
       if (currentController.isInitialized.value) {
@@ -111,6 +108,33 @@ class _VideoViewPageState extends State<VideoViewPage> {
         : AppColors.whiteColor;
   }
 
+  void doubleTapLike(String videoId) {
+    controller.likeVideo(videoId);
+  }
+
+  void toggleOptionScreen() {
+    if (Get.isRegistered<VideoboxController>(
+        tag: controller.videoList[currentIndex].videoUrl)) {
+      Get.find<VideoboxController>(
+              tag: controller.videoList[currentIndex].videoUrl)
+          .pauseVideo();
+    }
+    widget.onPressed?.call();
+  }
+
+  void playPauseVideo() {
+    final currentVideoUrl = controller.videoList[currentIndex].videoUrl;
+    if (Get.isRegistered<VideoboxController>(tag: currentVideoUrl)) {
+      final videoController =
+          Get.find<VideoboxController>(tag: currentVideoUrl);
+      if (videoController.videoPlayerController.value.isPlaying) {
+        videoController.pauseVideo();
+      } else {
+        videoController.playVideo();
+      }
+    }
+  }
+
   @override
   void dispose() {
     _commentController.dispose();
@@ -122,34 +146,42 @@ class _VideoViewPageState extends State<VideoViewPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: HomeScreenAppbar(
-        leadingIconTapped: widget.onPressed,
+        leadingIconTapped: () => toggleOptionScreen(),
       ),
       extendBodyBehindAppBar: true,
       body: Obx(() {
-        return PageView.builder(
-          controller: _pageController,
-          scrollDirection: Axis.vertical,
-          itemCount: controller.videoList.length,
-          onPageChanged: handlePageChange,
-          itemBuilder: (context, index) {
-            final video = controller.videoList[index];
-            return Obx(() {
-              return VideoViewBox(
-                video: video,
-                onPressVideoActionCircle: () => controller.toggleExpand(),
-                isExpanded: controller.isExpanded.value,
-                likeColor: likeIconColor(video),
-                likePressed: () async => await controller.likeVideo(video.id),
-                commentPressed: () => commenting(video.id),
-                sharePressed: () => shareVideo(videoUrl: video.videoUrl),
-                gotoAccount: () => Get.toNamed(
-                  AppRoutes.accountVisiblePage,
-                  arguments: {'uid': video.uid},
-                ),
+        return controller.videoList.isEmpty
+            ? Center(
+                child: Text("There is no media yet"),
+              )
+            : PageView.builder(
+                controller: _pageController,
+                scrollDirection: Axis.vertical,
+                itemCount: controller.videoList.length,
+                onPageChanged: handlePageChange,
+                itemBuilder: (context, index) {
+                  final video = controller.videoList[index];
+                  return Obx(() {
+                    return VideoViewBox(
+                      video: video,
+                      onPressVideoActionCircle: () => controller.toggleExpand(),
+                      isExpanded: controller.isExpanded.value,
+                      likeColor: likeIconColor(video),
+                      likePressed: () async =>
+                          await controller.likeVideo(video.id),
+                      commentPressed: () => commenting(video.id),
+                      sharePressed: () => shareVideo(videoUrl: video.videoUrl),
+                      doubleTapLike: () async =>
+                          controller.doubleTapLike(video.id),
+                      playPauseVideo: () => playPauseVideo(),
+                      gotoAccount: () => Get.toNamed(
+                        AppRoutes.accountVisiblePage,
+                        arguments: {'uid': video.uid},
+                      ),
+                    );
+                  });
+                },
               );
-            });
-          },
-        );
       }),
     );
   }

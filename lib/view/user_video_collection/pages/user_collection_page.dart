@@ -15,7 +15,7 @@ class UserCollectionPage extends StatelessWidget {
         child: Column(
           children: [
             BuildProfileCircle(name: "name"),
-            BuildFollowSection(count: "500"),
+            BuildFollowSection(followCount: "500",followersCount: "100",),
             _space(30.0),
             _buildCollectionSection(),
             _space(10.0),
