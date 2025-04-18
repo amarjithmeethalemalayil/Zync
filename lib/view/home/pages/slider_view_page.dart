@@ -69,13 +69,20 @@ class _SliderViewPageState extends State<SliderViewPage> {
             SilverViewOptions(
               icon: Icons.pageview_outlined,
               label: "About me",
-              onTap: () => Get.toNamed(AppRoutes.createOne),
+              onTap: () => Get.toNamed(AppRoutes.about),
             ),
             Spacer(),
-            LogOutButton(),
+            LogOutButton(
+              logOutPressed: () => logOut(),
+            ),
           ],
         ),
       ),
     );
+  }
+
+  logOut() {
+    userInfoController.logOut();
+    Get.offAllNamed(AppRoutes.login);
   }
 }
